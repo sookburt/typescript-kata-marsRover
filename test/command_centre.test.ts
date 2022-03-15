@@ -1,8 +1,12 @@
-import { plumbingTest } from '../src/command_centre';
+import { createPlateau } from '../src/command_centre';
 
-describe("command_centre",() => {
-  test('test that a command centre file has been created', () => {
-    expect(plumbingTest()).toBe(true);
+
+describe("command_centre", () => {
+
+  test('test that the command_centre has created a plateau', () => {
+
+    const plateau = { x: 5, y: 5 };
+    expect(createPlateau(5, 5)).toEqual(plateau);
   });
 });
 
