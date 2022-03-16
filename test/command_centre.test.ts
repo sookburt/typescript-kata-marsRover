@@ -12,7 +12,7 @@ describe("command_centre", () => {
   test('test that the command_centre has created a Rover', () => {
 
     const coordinates = 'x: 0, y: 0, facing: N';
-    expect(createRover().currentCoordinates()).toEqual(coordinates);
+    expect(createRover("Fred").currentCoordinates()).toEqual(coordinates);
   });
 
   test('test that the command_centre has created an Instruction Set', () => {
@@ -25,7 +25,7 @@ describe("command_centre", () => {
   test('test that the command_centre has assigned a rover to a plateau', () => {
     // arrange
     const plateau = createPlateau(5,5);
-    const rover = createRover();
+    const rover = createRover("Fred");
     // act
     plateau.addRover(rover);
     // assert
@@ -35,7 +35,7 @@ describe("command_centre", () => {
   test('that a single "M" instruction to a rover returns the correct coordinates of 0, 1, N', () => {
     // arrange
     const plateau = createPlateau(5,5);
-    const rover = createRover();
+    const rover = createRover("Fred");
     plateau.addRover(rover); 
     const instructions = createInstructionSet(0,0,'N','M', plateau);
     const expectedCoordinates = 'x: 0, y: 1, facing: N';
@@ -48,7 +48,7 @@ describe("command_centre", () => {
   test('that a single "R" instruction to a rover returns the correct coordinates of 0, 0, E', () => {
     // arrange
     const plateau = createPlateau(5,5);
-    const rover = createRover();
+    const rover = createRover("Fred");
     plateau.addRover(rover); 
     const instructions = createInstructionSet(0,0,'N','R', plateau);
     const expectedCoordinates = 'x: 0, y: 0, facing: E';
@@ -61,7 +61,7 @@ describe("command_centre", () => {
   test('that a single "L" instruction to a rover returns the correct coordinates of 0, 0, W', () => {
     // arrange
     const plateau = createPlateau(5,5);
-    const rover = createRover();
+    const rover = createRover("Fred");
     plateau.addRover(rover); 
     const instructions = createInstructionSet(0,0,'N','L', plateau);
     const expectedCoordinates = 'x: 0, y: 0, facing: W';
@@ -74,7 +74,7 @@ describe("command_centre", () => {
   test('that an instruction "RRR" instruction to a rover returns the correct coordinates of 0, 0, W', () => {
     // arrange
     const plateau = createPlateau(5,5);
-    const rover = createRover();
+    const rover = createRover("Fred");
     plateau.addRover(rover); 
     const instructions = createInstructionSet(0,0,'N','RRR', plateau);
     const expectedCoordinates = 'x: 0, y: 0, facing: W';
@@ -87,7 +87,7 @@ describe("command_centre", () => {
   test('that an instruction "LLL" instruction to a rover returns the correct coordinates of 0, 0, E', () => {
     // arrange
     const plateau = createPlateau(5,5);
-    const rover = createRover();
+    const rover = createRover("Fred");
     plateau.addRover(rover); 
     const instructions = createInstructionSet(0,0,'N','LLL', plateau);
     const expectedCoordinates = 'x: 0, y: 0, facing: E';
@@ -100,7 +100,7 @@ describe("command_centre", () => {
   test('that an instruction "RRRRR" instruction to a rover returns the correct coordinates of 0, 0, E', () => {
     // arrange
     const plateau = createPlateau(5,5);
-    const rover = createRover();
+    const rover = createRover("Fred");
     plateau.addRover(rover); 
     const instructions = createInstructionSet(0,0,'N','RRRRR', plateau);
     const expectedCoordinates = 'x: 0, y: 0, facing: E';
@@ -113,7 +113,7 @@ describe("command_centre", () => {
   test('that an instruction "LLLLL" instruction to a rover returns the correct coordinates of 0, 0, W', () => {
     // arrange
     const plateau = createPlateau(5,5);
-    const rover = createRover();
+    const rover = createRover("Fred");
     plateau.addRover(rover); 
     const instructions = createInstructionSet(0,0,'N','LLLLL', plateau);
     const expectedCoordinates = 'x: 0, y: 0, facing: W';
@@ -121,6 +121,68 @@ describe("command_centre", () => {
     rover.move(instructions);
     // assert
     expect(rover.currentCoordinates()).toBe(expectedCoordinates);
+  });
+  
+  test('that it throws an Edge proximity error if we add an instruction "LM" instruction to a rover at 0, 0, N', () => {
+    // arrange
+    const plateau = createPlateau(5,5);
+    const rover = createRover("Fred");
+    plateau.addRover(rover); 
+    const instructions = createInstructionSet(0,0,'N','LM', plateau);
+
+    expect(() => {
+      rover.move(instructions);
+      console.log(rover.currentCoordinates());
+    }).toThrow("Edge proximity error - cannot complete move!");
+  });
+
+  test('that it throws a Rover collision error if we add an instruction "RM" instruction to second rover on the same plateau', () => {
+    // arrange
+    const plateau = createPlateau(5,5);
+    const rover_a = createRover("Fred");
+    const rover_b = createRover("Wilma");
+    plateau.addRover(rover_a); 
+    const instructions = createInstructionSet(0,0,'N','RM',plateau);
+    rover_a.move(instructions);
+    plateau.addRover(rover_b);
+
+    expect(() => {
+      rover_b.move(instructions);
+    }).toThrow("Rover collision error - cannot complete move!");
+  });
+
+  test('that it throws a Rover collision error if we add an a second rover on the same plateau without moving the first', () => {
+    // arrange
+    const plateau = createPlateau(5,5);
+    const rover_a = createRover("Fred");
+    const rover_b = createRover("Wilma");
+    plateau.addRover(rover_a); 
+    
+    expect(() => {
+      plateau.addRover(rover_b);
+    }).toThrow("Rover collision error - cannot complete move!");
+  });
+
+  test('that it throws a Potential gridlock error when more than 3 rovers added to a plateau', () => {
+    // arrange
+    const plateau = createPlateau(5,5);
+    const instruction1 = createInstructionSet(0,0,'N','MMMM',plateau);
+    const instruction2 = createInstructionSet(0,0,'N','RMM',plateau);
+    const instruction3 = createInstructionSet(0,0,'N','RM',plateau);
+    const rover_a = createRover("Fred");
+    rover_a.move(instruction1);
+    const rover_b = createRover("Wilma");
+    rover_b.move(instruction2);
+    const rover_c = createRover("Bam Bam");
+    rover_c.move(instruction3);
+    const rover_d = createRover("Betty");
+    plateau.addRover(rover_a); 
+    plateau.addRover(rover_b);
+    plateau.addRover(rover_c);
+
+    expect(() => {
+      plateau.addRover(rover_d);
+    }).toThrow("Potential gridlock error (max 3) - cannot add new rover!");
   });
 
 });
