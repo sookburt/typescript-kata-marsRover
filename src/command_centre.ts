@@ -47,6 +47,7 @@ class Plateau {
     }
 
     addRover(newRover: Rover){
+        print(`Added a new rover to my plateau`);
         this.rovers.push(newRover);
     }
 
@@ -79,7 +80,7 @@ class Rover {
         instructionSteps.forEach(step => {
 
             let stepDirection = this.direction;
-            if(step === "M") {
+            if (step === "M") {
 
                 switch (stepDirection) {
                     case "N" : stepY++;
@@ -91,11 +92,30 @@ class Rover {
                     case "W" : stepX--;
                 }                
             }
-            // if(step === "L") {
-            //     stepDir 
-            // }
+            if (step === "R") {
+                let index = directions.indexOf(stepDir);
+                let next = ++index;
+                if (next > directions.length-1) {
+                    next = 0;
+                }
+
+                stepDir = directions[next];
+            }
+
+            if (step === "L") {
+                let index = directions.indexOf(stepDir);
+                let next = --index;
+                if (next < 0) {
+                    next = directions.length-1;
+                }
+
+                stepDir = directions[next];
+            }
         });
 
+        this.x = stepX;
+        this.y = stepY;
+        this.direction = stepDir;
     }
 
     currentCoordinates(){
