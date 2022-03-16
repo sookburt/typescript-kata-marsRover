@@ -123,6 +123,32 @@ describe("command_centre", () => {
     expect(rover.currentCoordinates()).toBe(expectedCoordinates);
   });
   
+  test('that an instruction "LMLMLMLMM" instruction to a rover returns the correct coordinates of 1, 3, N', () => {
+    // arrange
+    const plateau = createPlateau(5,5);
+    const rover = createRover("Fred");
+    plateau.addRover(rover); 
+    const instructions = createInstructionSet(1,2,'N','LMLMLMLMM', plateau);
+    const expectedCoordinates = 'x: 1, y: 3, facing: N';
+    // act
+    rover.move(instructions);
+    // assert
+    expect(rover.currentCoordinates()).toBe(expectedCoordinates);
+  });
+    
+  test('that an instruction "MMRMMRMRRM" instruction to a rover returns the correct coordinates of 5, 1, E', () => {
+    // arrange
+    const plateau = createPlateau(5,5);
+    const rover = createRover("Fred");
+    plateau.addRover(rover); 
+    const instructions = createInstructionSet(3,3,'E','MMRMMRMRRM', plateau);
+    const expectedCoordinates = 'x: 5, y: 1, facing: E';
+    // act
+    rover.move(instructions);
+    // assert
+    expect(rover.currentCoordinates()).toBe(expectedCoordinates);
+  });
+  
   test('that it throws an Edge proximity error if we add an instruction "LM" instruction to a rover at 0, 0, N', () => {
     // arrange
     const plateau = createPlateau(5,5);
@@ -135,6 +161,43 @@ describe("command_centre", () => {
       console.log(rover.currentCoordinates());
     }).toThrow("Edge proximity error - cannot complete move!");
   });
+
+  test('that it throws an Edge proximity error if we add an instruction "MMMMMM" instruction to a rover at 0, 0, N', () => {
+    // arrange
+    const plateau = createPlateau(5,5);
+    const rover = createRover("Fred");
+    plateau.addRover(rover); 
+    const instructions = createInstructionSet(0,0,'N','MMMMMM', plateau);
+
+    expect(() => {
+      rover.move(instructions);
+      console.log(rover.currentCoordinates());
+    }).toThrow("Edge proximity error - cannot complete move!");
+  });
+
+  test('that it throws an Edge proximity error if we add an instruction "RMMMMMM" instruction to a rover at 0, 0, N', () => {
+    // arrange
+    const plateau = createPlateau(5,5);
+    const rover = createRover("Fred");
+    plateau.addRover(rover); 
+    const instructions = createInstructionSet(0,0,'N','RMMMMMM', plateau);
+
+    expect(() => {
+      rover.move(instructions);
+      console.log(rover.currentCoordinates());
+    }).toThrow("Edge proximity error - cannot complete move!");
+  });
+
+  //NEXT
+  // test('that it throws an Invalid instruction error if we create an instruction "RS" instruction', () => {
+  //   // arrange
+  //   const plateau = createPlateau(5,5);
+  //   let instructions;
+
+  //   expect(() => {
+  //     instructions = createInstructionSet(0,0,'N','RS',plateau);
+  //   }).toThrow("Invalid instruction error - cannot create InstructionSet!");
+  // });
 
   test('that it throws a Rover collision error if we add an instruction "RM" instruction to second rover on the same plateau', () => {
     // arrange

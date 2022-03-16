@@ -11,8 +11,7 @@ export function start() {
 const directions = ["N","E", "S", "W"] as const;
 type CompassDirection = typeof directions[number]; 
 
-const faces = [ "L", "R", null ] as const;
-type TurnDirection = typeof faces[number];
+const faces = [ "L", "R"] as const;
 
 class InstructionSet {
     startX: number;
@@ -119,7 +118,7 @@ class Rover {
                     case "W" : stepX--;
                 }                
             }
-            if (step === "R") {
+            if (step === faces[1]) {
                 let index = directions.indexOf(stepDir);
                 let next = ++index;
                 if (next > directions.length-1) {
@@ -129,7 +128,7 @@ class Rover {
                 stepDir = directions[next];
             }
 
-            if (step === "L") {
+            if (step === faces[0]) {
                 let index = directions.indexOf(stepDir);
                 let next = --index;
                 if (next < 0) {
@@ -168,12 +167,14 @@ export function createRover(name: string) {
 }
 
 export function createInstructionSet(startX: number, startY: number, startDirection: CompassDirection, instruction: string, plateau: Plateau) {
-
+    //const regex: RegExp = /[LRM]*/;
+    //if(instruction )
     const instructionSet = new InstructionSet(startX, startY, startDirection, instruction, plateau);
     return instructionSet;
 }
 
 export function addRoverToPlateau( plateau: Plateau, rover: Rover) {
+
     plateau.addRover(rover);
 }
 
