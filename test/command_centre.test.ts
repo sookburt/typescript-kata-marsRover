@@ -188,16 +188,46 @@ describe("command_centre", () => {
     }).toThrow("Edge proximity error - cannot complete move!");
   });
 
-  //NEXT
-  // test('that it throws an Invalid instruction error if we create an instruction "RS" instruction', () => {
-  //   // arrange
-  //   const plateau = createPlateau(5,5);
-  //   let instructions;
+  test('that it throws an Invalid instruction error if we create an instruction "RS" instruction', () => {
+    const plateau = createPlateau(5,5);  
+    expect(() => {
+      let instructions = createInstructionSet(0,0,'N','RS',plateau);
+    }).toThrow("Invalid instruction error - invalid characters in instruction - cannot create instruction set.");
+  });
 
-  //   expect(() => {
-  //     instructions = createInstructionSet(0,0,'N','RS',plateau);
-  //   }).toThrow("Invalid instruction error - cannot create InstructionSet!");
-  // });
+  test('that it throws an Invalid instruction error if we create an instruction set with no plateau', () => {
+    expect(() => {
+      const instructions = createInstructionSet(0,0,'N','RM', undefined);
+    }).toThrow("Invalid instruction error - plateau is required - cannot create instruction set.");
+  });
+
+  test('that it throws an Invalid instruction error if we create an instruction set with no startX', () => {
+    const plateau = createPlateau(5,5);
+    expect(() => {
+      const instructions = createInstructionSet(undefined,0,'N','RM', plateau);
+    }).toThrow("Invalid instruction error - startX is required - cannot create instruction set.");
+  });
+
+  test('that it throws an Invalid instruction error if we create an instruction set with no startY', () => {
+    const plateau = createPlateau(5,5);
+    expect(() => {
+      const instructions = createInstructionSet(0, undefined,'N','RM', plateau);
+    }).toThrow("Invalid instruction error - startY is required - cannot create instruction set.");
+  });
+
+  test('that it throws an Invalid instruction error if we create an instruction set with no startDirection', () => {
+    const plateau = createPlateau(5,5);
+    expect(() => {
+      const instructions = createInstructionSet(0, 0, undefined, 'RM', plateau);
+    }).toThrow("Invalid instruction error - startDirection is required - cannot create instruction set.");
+  });
+
+  test('that it throws an Invalid instruction error if we create an instruction set with no instruction', () => {
+    const plateau = createPlateau(5,5);
+    expect(() => {
+      const instructions = createInstructionSet(0, 0, 'N', undefined, plateau);
+    }).toThrow("Invalid instruction error - instruction is required - cannot create instruction set.");
+  });
 
   test('that it throws a Rover collision error if we add an instruction "RM" instruction to second rover on the same plateau', () => {
     // arrange
