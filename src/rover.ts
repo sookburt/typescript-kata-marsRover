@@ -1,6 +1,6 @@
 import {print} from './print';
 import { InstructionSet } from './instructionSet';
-import { CompassDirection, getNextRight, getNextLeft } from './compassDirection';
+import { CompassDirection, getNextRight, getNextLeft, getInitialDirection } from './compassDirection';
 
 export class Rover {
 
@@ -13,7 +13,7 @@ export class Rover {
       this.name = name;
       this.x = 0;
       this.y = 0;
-      this.direction = "N"; 
+      this.direction = getInitialDirection(); 
       print(`Rover called ${this.name} created with coordinates: x: ${this.x}, y: ${this.y}, facing: ${this.direction}`);
   }
 
@@ -27,7 +27,6 @@ export class Rover {
 
       instructionSteps.forEach(step => {
 
-          //let stepDirection = this.direction;
           if (step === "M") {
 
               switch (stepDir) {
@@ -57,7 +56,6 @@ export class Rover {
           this.y = stepY;
           this.direction = stepDir;
       }
-
   }
 
   currentCoordinates(){

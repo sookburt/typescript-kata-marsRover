@@ -26,3 +26,7 @@ export function getNextLeft(currentDirection: CompassDirection){
 
   return directions[next];
 }
+
+export function getInitialDirection() {
+  return directions[0];
+}
