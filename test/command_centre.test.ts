@@ -1,12 +1,11 @@
 import { createPlateau, createRover, createInstructionSet } from '../src/command_centre';
 
-
 describe("command_centre", () => {
 
   test('test that the command_centre has created a Plateau', () => {
 
     const dimensions = 'x:5, y:5';
-    
+
     expect(createPlateau(5, 5).getDimensions()).toBe(dimensions);
   });
 

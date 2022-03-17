@@ -6,6 +6,9 @@ import { InstructionSet } from './instructionSet';
 
 export function start() {
 
+    // TODO: consider how I might put an interface on this to send details in.
+    // TODO: how might we see what is happening with the plateaux and rovers - print statements with emojis?
+
     const plateau = createPlateau(5, 5);
     const rover = createRover("Wanderer");
     plateau.addRover(rover);
@@ -21,6 +24,8 @@ export function start() {
  */
 export function createPlateau( xSize: number, ySize: number) : Plateau {
 
+    // TODO: consider giving the plateaux a name to allow us to create > 1 plateau and maintain the list.
+
     const plateau = new Plateau(xSize, ySize);
     return plateau;
 }
@@ -31,6 +36,8 @@ export function createPlateau( xSize: number, ySize: number) : Plateau {
  * @returns Rover
  */
 export function createRover(name: string) {
+
+    // TODO: consider initializing name of rovers from within class to set of 3 names?
 
     const rover = new Rover(name);
     return rover;
