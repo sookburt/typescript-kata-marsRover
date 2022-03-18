@@ -80,7 +80,12 @@ function handleCreateRoverInput(input: string) {
 
     if (validateRoverNameInput(input)) {
         const rover = createRover(input);
+        try {
         plateau.addRover(rover);
+        }
+        catch (error){
+            print(`🧨 Ooops... there was an error... I think we crashed into another rover... 🔥🔥🔥`)
+        }
 
         startInstructionCoordinateProcess();
     }
@@ -121,7 +126,7 @@ function handleInstructionCoordinates(input: string) {
 
     }
     else {
-        start();
+        startInstructionCoordinateProcess();
     }
 }
 
@@ -150,6 +155,7 @@ function validateInstructionCoordinates(input: string) {
 }
 
 function startInstructionMovementProcess() {
+
     askQuestion("Ok, now we need the directions and movements: L to turn left, R to turn right and M to move like: 'RMMLMM' ", handleInstructionMovementInput);
 }
 
@@ -158,11 +164,18 @@ function handleInstructionMovementInput(input: string) {
     if (validateInstructionMovementInput(input)) {
         instructionBuilder.instruction = input;
         
-        plateau.rovers[0].move(createInstructionSet(instructionBuilder.startX, instructionBuilder.startY, instructionBuilder.startDir, instructionBuilder.instruction, plateau));
-        askQuestion("Do you want to finish (F), create another Rover (R) or Start (S) again?", handleFinishOrStartAgainInput);
+        // TODO: currently only handling one Rover at a time... work out how to fix this
+        try {
+            plateau.rovers[0].move(createInstructionSet(instructionBuilder.startX, instructionBuilder.startY, instructionBuilder.startDir, instructionBuilder.instruction, plateau));
+        }
+        catch(error) {
+            print(`🧨 Ooops... there was an error... I think we fell off the cliff... 🔥🔥🔥`)
+        }
+
+        whatNext();
     }
     else {
-        start();
+        startInstructionMovementProcess();
     }
 }
 
@@ -177,6 +190,11 @@ function validateInstructionMovementInput(input: string){
         return false;
     }
     return true;
+}
+
+function whatNext() {
+
+    askQuestion("Do you want to finish (F), create another Rover (R) or Start (S) again?", handleFinishOrStartAgainInput);
 }
 
 function handleFinishOrStartAgainInput(input: string) {
