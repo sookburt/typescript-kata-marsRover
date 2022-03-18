@@ -162,6 +162,7 @@ function startInstructionMovementProcess() {
 function handleInstructionMovementInput(input: string) {
 
     if (validateInstructionMovementInput(input)) {
+        
         instructionBuilder.instruction = input;
         
         // TODO: currently only handling one Rover at a time... work out how to fix this
