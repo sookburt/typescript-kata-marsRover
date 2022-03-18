@@ -27,9 +27,10 @@ export function getNextLeft(currentDirection: CompassDirection){
   return directions[next];
 }
 
-export function validateDirection(input: string) {
+export function invalidateDirection(input: string) {
   const index = directions.indexOf(input);
-  return index !== -1;
+  if (index === -1) return true;
+  return false;
 }
 
 export function getInitialDirection() {

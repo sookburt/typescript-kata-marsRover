@@ -2,7 +2,14 @@ import { CompassDirection } from "./compassDirection";
 import { Plateau } from "./plateau";
 import { print } from "./console";
 
-export class InstructionSet {
+export interface Instruction {
+  startX: number;
+  startY: number;
+  startDir: CompassDirection;
+  instruction: string;
+}
+
+export class InstructionSet implements Instruction {
   startX: number;
   startY: number;
   startDir: CompassDirection;
@@ -17,7 +24,7 @@ export class InstructionSet {
       this.instruction = instruction;
       this.plateau = plateau;
       this.emoji = '📃';
-      print(`An instruction set ${this.emoji} has been created for the plateau ${this.plateau.emoji} with the following details ${this.getInstructions()}`);
+      print(`✅ An instruction set ${this.emoji} has been created for the plateau ${this.plateau.emoji} with the following details ${this.getInstructions()}`);
   }
 
   getInstructions(){

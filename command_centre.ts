@@ -1,10 +1,19 @@
 import { print, clear, closeInputStream, askQuestion } from './src/console';
 import { Plateau } from './src/plateau';
 import { Rover } from './src/rover';
-import { CompassDirection } from './src/compassDirection';
-import { InstructionSet } from './src/instructionSet';
+import { CompassDirection, invalidateDirection } from './src/compassDirection';
+import { InstructionSet, Instruction } from './src/instructionSet';
 
 let plateau = undefined;
+
+class InstructionBuilder implements Instruction {
+    startX: number;
+    startY: number;
+    startDir: CompassDirection;
+    instruction: string;
+}
+
+let instructionBuilder;
 
 export function start() {
 
@@ -12,11 +21,14 @@ export function start() {
     print(`| Welcome to the Space Farce Command Centre 🚀  |`); 
     print(' ------------------------------------------------');
     print('');
-    print('First lets define the size of the plateau');
+    print('First lets define the size of the plateau...');
 
-    askQuestion("Give me two comma separated numbers between 1 and 10 (e.g., '5, 5');", handleCreatePlateauInput);  
+    startPlateauCreationProcess();
+}
 
-    //closeInputStream();
+function startPlateauCreationProcess() {
+
+    askQuestion("Give me two comma separated numbers between 1 and 10 (e.g., '5, 5');", handleCreatePlateauInput);
 }
 
 function handleCreatePlateauInput(input: string) {
@@ -27,7 +39,7 @@ function handleCreatePlateauInput(input: string) {
 
     if (validatePlateauNameInput(input)) {
         plateau = createPlateau(xDimension, yDimension);
-        askQuestion("Ok, that's the plateau created... now let's create a Rover... Give me a name for the Rover (max 15 characters): ", handleCreateRoverInput);
+        startRoverCreationProcess();
     }
     else {
         start();
@@ -60,39 +72,124 @@ function validatePlateauNameInput(input: string) {
     return true;
 }
 
+function startRoverCreationProcess(){
+    askQuestion("Ok, that's the plateau created... now let's create a Rover... Give me a name for the Rover (max 15 characters): ", handleCreateRoverInput);
+}
+
 function handleCreateRoverInput(input: string) {
 
     if (validateRoverNameInput(input)) {
         const rover = createRover(input);
-        plateau.add(rover);
+        plateau.addRover(rover);
 
-        askQuestion("That's the rover created... now we need an instuction set... Firstly, please define the starting position coordinates - two comma separated numbers and direction to face N, E, S or W (e.g., 0,0,N)", handleInstructionStartCoordinates);
+        startInstructionCoordinateProcess();
     }
     else {
-        start();
+        startRoverCreationProcess();
     }
 }
 
 function validateRoverNameInput(input: string){
 
     if (input.length > 15) {
-        print(`That name is too long? 😱 Please start again!`);
+        print(`That name is too long? 😱 Please try again!`);
         return false;
     }
-    if (/\W/.test(input)) {
-        print("That's not a name - please start again!");
+    if (/\W /.test(input)) {
+        print("That's not a name... 😱 please try again!");
         return false;
     }
     return true;
 }
 
-function handleInstructionStartCoordinates(input: string) {
+function startInstructionCoordinateProcess() {
 
-    // how to handle getting the rest????!!!
-    print("in handleInstructionStartCoordinates ");
+    askQuestion("That's the rover created... now we need an instuction set... First, please define the starting position coordinates - two comma separated numbers and direction to face N, E, S or W (e.g., 0,0,N) ", handleInstructionCoordinates);
+}
 
+function handleInstructionCoordinates(input: string) {
 
-    
+    if (validateInstructionCoordinates(input)) {
+
+        const inputs = input.trim().split(",");
+        instructionBuilder = new InstructionBuilder();
+        instructionBuilder.startX = parseInt(inputs[0].trim());
+        instructionBuilder.startY = parseInt(inputs[1].trim());
+        instructionBuilder.startDir = inputs[2].trim();
+
+        startInstructionMovementProcess();
+
+    }
+    else {
+        start();
+    }
+}
+
+function validateInstructionCoordinates(input: string) {
+
+    const inputs = input.trim().split(",");
+
+    if (inputs.length !== 3) {
+        print("There need to be 3 inputs for the instruction coordinates, separated with a comma: start X position (number), start Y position (number) and direction to face N (North), E (East), S (South), W (West) - like: '1,2,N' your input did not contain those. Please start again.");
+        return false;
+    }
+    if (Number.isNaN(parseInt(inputs[0]))) {
+        print("The first character needs to be a number in the instruction coordinates, separated with a comma: start X position (number), start Y position (number) and direction to face N (North), E (East), S (South), W (West) - like: '1,2,N'. Please start again.");
+        return false;       
+    }
+    if (Number.isNaN(parseInt(inputs[1]))) {
+        print("The second character needs to be a number in the instruction coordinates, separated with a comma: start X position (number), start Y position (number) and direction to face N (North), E (East), S (South), W (West) - like: '1,2,N'. Please start again.");
+        return false;       
+    }
+    if (invalidateDirection(inputs[2])) {
+        print(`The third character needs to be a compass direction in the instruction coordinates - either N (North), E (East), S (South), W (West) - like: '1,2,N'.  You typed in ${inputs[2]}. Please start again.`);
+        return false;       
+    }
+
+    return true;
+}
+
+function startInstructionMovementProcess() {
+    askQuestion("Ok, now we need the directions and movements: L to turn left, R to turn right and M to move like: 'RMMLMM' ", handleInstructionMovementInput);
+}
+
+function handleInstructionMovementInput(input: string) {
+
+    if (validateInstructionMovementInput(input)) {
+        instructionBuilder.instruction = input;
+        
+        plateau.rovers[0].move(createInstructionSet(instructionBuilder.startX, instructionBuilder.startY, instructionBuilder.startDir, instructionBuilder.instruction, plateau));
+        askQuestion("Do you want to finish (F), create another Rover (R) or Start (S) again?", handleFinishOrStartAgainInput);
+    }
+    else {
+        start();
+    }
+}
+
+function validateInstructionMovementInput(input: string){
+
+    if(input === undefined) {
+        print(`The instructions are required in the form of a combination of L, R or M 😱 Please start again!`);
+        return false;
+    }
+    if (/[^LRM*]/.test(input)) {
+        print(`The instructions can only contain a combination of L, R or M? 😱 Please start again!`);
+        return false;
+    }
+    return true;
+}
+
+function handleFinishOrStartAgainInput(input: string) {
+
+    if(input === "F") {
+        finish()
+    }
+    else if (input === "R"){
+        startRoverCreationProcess();
+    }
+    else {
+        start();
+    }
 }
 
 /**
@@ -102,8 +199,6 @@ function handleInstructionStartCoordinates(input: string) {
  * @returns Plateau 
  */
 export function createPlateau( xSize: number, ySize: number) : Plateau {
-
-    // TODO: consider giving the plateaux a name to allow us to create > 1 plateau and maintain the list.
 
     const plateau = new Plateau(xSize, ySize);
     return plateau;
@@ -115,8 +210,6 @@ export function createPlateau( xSize: number, ySize: number) : Plateau {
  * @returns Rover
  */
 export function createRover(name: string) {
-
-    // TODO: consider initializing name of rovers from within class to set of 3 names?
 
     const rover = new Rover(name);
     return rover;
@@ -141,6 +234,12 @@ export function createInstructionSet(startX: number, startY: number, startDirect
 
     const instructionSet = new InstructionSet(startX, startY, startDirection, instruction, plateau);
     return instructionSet;
+}
+
+function finish() {
+
+    print("Bye!!! 👋");
+    closeInputStream();
 }
 
 start();

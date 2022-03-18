@@ -18,6 +18,7 @@ export function print(message: string): void {
 }
 
 export function askQuestion(question: string, callback: (arg: string) => void) {
+  console.log("");
 	reader.question(`❓ ${question} 👉 `, callback);
 }
 

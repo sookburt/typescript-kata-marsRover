@@ -16,7 +16,7 @@ export class Plateau {
       this.rovers = [];
       this.instructionSets = [];
       this.emoji = '🌐';
-      print(`Plateau ${this.emoji} created with dimensions: x: ${this.x}, y: ${this.y}, containing ${this.rovers.length} rovers`);
+      print(`✅ Plateau ${this.emoji} created with dimensions: x: ${this.x}, y: ${this.y}, containing ${this.rovers.length} rovers`);
   }
 
   addInstructionSet(instruction: InstructionSet) {
@@ -28,7 +28,7 @@ export class Plateau {
       const isValid = this.collisionCheck(newRover.x, newRover.y, newRover.name);
       if (isValid) {
           this.rovers.push(newRover);
-          print(`Added a new rover ${newRover.emoji} called ${newRover.name} to my plateau ${this.emoji}; now have ${this.rovers.length} rovers`);
+          print(`✅ Added a new rover ${newRover.emoji} called ${newRover.name} to my plateau ${this.emoji}; now have ${this.rovers.length} rovers`);
       }
   }
 

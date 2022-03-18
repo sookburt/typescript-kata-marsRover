@@ -16,7 +16,7 @@ export class Rover {
       this.y = 0;
       this.direction = getInitialDirection(); 
       this.emoji = '🚘';
-      print(`Rover called ${this.name} created with coordinates: x: ${this.x}, y: ${this.y}, facing: ${this.direction}`);
+      print(`✅ Rover called ${this.name} created with coordinates: x: ${this.x}, y: ${this.y}, facing: ${this.direction}`);
   }
 
   move(instructions: InstructionSet){
@@ -26,7 +26,7 @@ export class Rover {
       let stepX = instructions.startX;
       let stepY = instructions.startY;
       let stepDir = instructions.startDir;
-      print(`Rover ${this.emoji}  ${ this.name } has been given an instruction starting at coordinates ${stepX}, ${stepY}, facing ${stepDir} and moving ${instructions.instruction}`);
+      print(`✅ Rover ${this.emoji}  ${ this.name } has been given an instruction starting at coordinates ${stepX}, ${stepY}, facing ${stepDir} and moving ${instructions.instruction}`);
 
       instructionSteps.forEach(step => {
 
@@ -58,7 +58,7 @@ export class Rover {
           this.x = stepX;
           this.y = stepY;
           this.direction = stepDir;
-          print(`Rover ${this.emoji}  ${this.name} has moved to ${this.currentCoordinates()}`)
+          print(`✅ Rover ${this.emoji}  ${this.name} has moved to ${this.currentCoordinates()}`)
       }
   }
 
