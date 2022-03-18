@@ -6,11 +6,14 @@
   "devDependencies": {
     "@types/jest": "^27.4.1",
     "jest": "^27.4.7",
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.4.0",
     "ts-jest": "^27.1.3",
     "typescript": "^4.6.2"
   },
   "scripts": {
     "build": "tsc --project ./tsconfig.json",
-    "test": "jest"
+    "test": "jest",
+    "start": "nodemon ./command_centre.ts"
   }
 }

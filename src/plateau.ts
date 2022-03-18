@@ -1,17 +1,26 @@
 import {print} from './console';
 import { CompassDirection } from './compassDirection'
 import { Rover } from './rover';
+import { InstructionSet } from './instructionSet';
 
 export class Plateau {
   x: number;
   y: number;
-  rovers: Rover[]
+  rovers: Rover[];
+  instructionSets: InstructionSet[];
+  emoji: string;
   
   constructor(xSize: number, ySize: number){
       this.x = xSize;
       this.y = ySize;
       this.rovers = [];
-      print(`Plateau created with dimensions: x: ${this.x}, y: ${this.y}, containing ${this.rovers.length} rovers`);
+      this.instructionSets = [];
+      this.emoji = '🌐';
+      print(`Plateau ${this.emoji} created with dimensions: x: ${this.x}, y: ${this.y}, containing ${this.rovers.length} rovers`);
+  }
+
+  addInstructionSet(instruction: InstructionSet) {
+
   }
 
   addRover(newRover: Rover){ 
@@ -19,7 +28,7 @@ export class Plateau {
       const isValid = this.collisionCheck(newRover.x, newRover.y, newRover.name);
       if (isValid) {
           this.rovers.push(newRover);
-          print(`Added a new rover called ${newRover.name} to my plateau; now have ${this.rovers.length} rovers`);
+          print(`Added a new rover ${newRover.emoji} called ${newRover.name} to my plateau ${this.emoji}; now have ${this.rovers.length} rovers`);
       }
   }
 
@@ -36,7 +45,7 @@ export class Plateau {
 
   collisionCheck(checkX: number, checkY: number, name: string) {
       this.rovers.forEach(rover => {
-          console.log(`cycling through the rovers: ${rover.currentCoordinates()}.`);
+          print(`cycling through the rovers: ${rover.currentCoordinates()}.`);
           if (rover.name !== name && rover.x === checkX && rover.y === checkY) {
               throw new Error("Rover collision error - cannot complete move!");
           }
