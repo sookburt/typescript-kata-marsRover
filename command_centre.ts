@@ -73,6 +73,7 @@ function validatePlateauNameInput(input: string) {
 }
 
 function startRoverCreationProcess(){
+
     askQuestion("Ok, that's the plateau created... now let's create a Rover... Give me a name for the Rover (max 15 characters): ", handleCreateRoverInput);
 }
 
@@ -81,7 +82,7 @@ function handleCreateRoverInput(input: string) {
     if (validateRoverNameInput(input)) {
         const rover = createRover(input);
         try {
-        plateau.addRover(rover);
+            plateau.addRover(rover);
         }
         catch (error){
             print(`🧨 Ooops... there was an error... I think we crashed into another rover... 🔥🔥🔥`)
@@ -181,7 +182,7 @@ function handleInstructionMovementInput(input: string) {
 
 function validateInstructionMovementInput(input: string){
 
-    if(input === undefined) {
+    if (input === undefined) {
         print(`The instructions are required in the form of a combination of L, R or M 😱 Please start again!`);
         return false;
     }
@@ -199,10 +200,10 @@ function whatNext() {
 
 function handleFinishOrStartAgainInput(input: string) {
 
-    if(input === "F") {
+    if (input === "F") {
         finish()
     }
-    else if (input === "R"){
+    else if (input === "R") {
         startRoverCreationProcess();
     }
     else if (input === "M") {
@@ -219,7 +220,7 @@ function handleFinishOrStartAgainInput(input: string) {
  * @param ySize 
  * @returns Plateau 
  */
-export function createPlateau( xSize: number, ySize: number) : Plateau {
+export function createPlateau(xSize: number, ySize: number) : Plateau {
 
     const plateau = new Plateau(xSize, ySize);
     return plateau;
@@ -246,11 +247,12 @@ export function createRover(name: string) {
  * @returns 
  */
 export function createInstructionSet(startX: number, startY: number, startDirection: CompassDirection, instruction: string, plateau: Plateau) {
-    if(plateau === undefined) throw new Error("Invalid instruction error - plateau is required - cannot create instruction set.");
-    if(startX === undefined) throw new Error("Invalid instruction error - startX is required - cannot create instruction set.");
-    if(startY === undefined) throw new Error("Invalid instruction error - startY is required - cannot create instruction set.");
-    if(startDirection === undefined) throw new Error("Invalid instruction error - startDirection is required - cannot create instruction set.");
-    if(instruction === undefined) throw new Error("Invalid instruction error - instruction is required - cannot create instruction set.");
+
+    if (plateau === undefined) throw new Error("Invalid instruction error - plateau is required - cannot create instruction set.");
+    if (startX === undefined) throw new Error("Invalid instruction error - startX is required - cannot create instruction set.");
+    if (startY === undefined) throw new Error("Invalid instruction error - startY is required - cannot create instruction set.");
+    if (startDirection === undefined) throw new Error("Invalid instruction error - startDirection is required - cannot create instruction set.");
+    if (instruction === undefined) throw new Error("Invalid instruction error - instruction is required - cannot create instruction set.");
     if (/[^LRM*]/.test(instruction)) throw new Error("Invalid instruction error - invalid characters in instruction - cannot create instruction set.");
 
     const instructionSet = new InstructionSet(startX, startY, startDirection, instruction, plateau);
@@ -259,6 +261,7 @@ export function createInstructionSet(startX: number, startY: number, startDirect
 
 function finish() {
 
+    clear(true);
     print("Bye!!! 👋");
     closeInputStream();
 }

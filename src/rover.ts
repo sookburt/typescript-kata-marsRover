@@ -11,6 +11,7 @@ export class Rover {
   emoji: string;
 
   constructor(name: string ){
+
       this.name = name;
       this.x = 0;
       this.y = 0;
@@ -55,6 +56,7 @@ export class Rover {
       const noCollisionIssue = callingPlateau.collisionCheck(stepX, stepY, this.name);
 
       if (noEdgeIssue && noCollisionIssue) {
+
           this.x = stepX;
           this.y = stepY;
           this.direction = stepDir;
@@ -63,6 +65,7 @@ export class Rover {
   }
 
   currentCoordinates(){
+      
       return `x: ${this.x}, y: ${this.y}, facing: ${this.direction}`;
   }
 }

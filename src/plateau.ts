@@ -1,26 +1,21 @@
 import {print} from './console';
 import { CompassDirection } from './compassDirection'
 import { Rover } from './rover';
-import { InstructionSet } from './instructionSet';
 
 export class Plateau {
+
   x: number;
   y: number;
   rovers: Rover[];
-  instructionSets: InstructionSet[];
   emoji: string;
   
   constructor(xSize: number, ySize: number){
+
       this.x = xSize;
       this.y = ySize;
       this.rovers = [];
-      this.instructionSets = [];
       this.emoji = '🌐';
       print(`✅ Plateau ${this.emoji} created with dimensions: x: ${this.x}, y: ${this.y}, containing ${this.rovers.length} rovers`);
-  }
-
-  addInstructionSet(instruction: InstructionSet) {
-
   }
 
   addRover(newRover: Rover){ 

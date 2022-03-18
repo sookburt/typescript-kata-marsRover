@@ -3,6 +3,7 @@ import { Plateau } from "./plateau";
 import { print } from "./console";
 
 export interface Instruction {
+
   startX: number;
   startY: number;
   startDir: CompassDirection;
@@ -10,6 +11,7 @@ export interface Instruction {
 }
 
 export class InstructionSet implements Instruction {
+
   startX: number;
   startY: number;
   startDir: CompassDirection;
@@ -18,6 +20,7 @@ export class InstructionSet implements Instruction {
   emoji: string;
 
   constructor(startX, startY, startDirection, instruction, plateau) {
+
       this.startX = startX;
       this.startY = startY;
       this.startDir = startDirection;
@@ -28,6 +31,7 @@ export class InstructionSet implements Instruction {
   }
 
   getInstructions(){
+    
       return `x:${this.startX}, y:${this.startY}, direction:${this.startDir}, instruction:${this.instruction}, plateau:${this.plateau.getDimensions()}`;
   }
 }
