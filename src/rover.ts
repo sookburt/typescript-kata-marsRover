@@ -1,4 +1,4 @@
-import {print} from './print';
+import {print} from './console';
 import { InstructionSet } from './instructionSet';
 import { CompassDirection, getNextRight, getNextLeft, getInitialDirection } from './compassDirection';
 

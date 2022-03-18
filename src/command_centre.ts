@@ -1,4 +1,4 @@
-import { print } from './print';
+import { print } from './console';
 import { Plateau } from './plateau';
 import { Rover } from './rover';
 import { CompassDirection } from './compassDirection';

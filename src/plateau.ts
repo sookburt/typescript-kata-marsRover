@@ -1,4 +1,4 @@
-import {print} from './print';
+import {print} from './console';
 import { CompassDirection } from './compassDirection'
 import { Rover } from './rover';
 
