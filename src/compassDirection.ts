@@ -2,7 +2,7 @@
 const faces = [ "L", "R"] as const;
 export type TurnFace = typeof faces[number];
 
-const directions = ["N","E", "S", "W"] as const;
+const directions = ["N", "E", "S", "W"];
 export type CompassDirection = typeof directions[number]; 
 
 export function getNextRight(currentDirection: CompassDirection){
@@ -25,6 +25,11 @@ export function getNextLeft(currentDirection: CompassDirection){
   }
 
   return directions[next];
+}
+
+export function validateDirection(input: string) {
+  const index = directions.indexOf(input);
+  return index !== -1;
 }
 
 export function getInitialDirection() {
