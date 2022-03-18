@@ -194,7 +194,7 @@ function validateInstructionMovementInput(input: string){
 
 function whatNext() {
 
-    askQuestion("Do you want to finish (F), create another Rover (R) or Start (S) again?", handleFinishOrStartAgainInput);
+    askQuestion("Do you want to finish (F), move the existing Rover again (M) create another Rover (R) or Start (S) again?", handleFinishOrStartAgainInput);
 }
 
 function handleFinishOrStartAgainInput(input: string) {
@@ -204,6 +204,9 @@ function handleFinishOrStartAgainInput(input: string) {
     }
     else if (input === "R"){
         startRoverCreationProcess();
+    }
+    else if (input === "M") {
+        startInstructionCoordinateProcess();
     }
     else {
         start();
