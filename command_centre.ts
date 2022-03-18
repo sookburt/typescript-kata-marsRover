@@ -20,7 +20,6 @@ export function start() {
     print(' ------------------------------------------------');
     print(`| Welcome to the Space Farce Command Centre 🚀  |`); 
     print(' ------------------------------------------------');
-    print('');
     print('First lets define the size of the plateau...');
 
     startPlateauCreationProcess();
