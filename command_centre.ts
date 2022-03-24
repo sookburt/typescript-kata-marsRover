@@ -1,5 +1,5 @@
 import { print, clear, closeInputStream, askQuestion } from './src/console';
-import { Plateau } from './src/plateau';
+import { createPlateau } from './src/plateau';
 import { createRover } from './src/rover';
 import { CompassDirection, isValidDirection } from './src/compassDirection';
 import { createInstructionSet, Instruction, isInvalidMove } from './src/instructionSet';
@@ -212,18 +212,6 @@ function handleFinishOrStartAgainInput(input: string) {
     else {
         start();
     }
-}
-
-/**
- * Creates a plateau of the defined dimensions.
- * @param xSize 
- * @param ySize 
- * @returns Plateau 
- */
-export function createPlateau(xSize: number, ySize: number) : Plateau {
-
-    const plateau = new Plateau(xSize, ySize);
-    return plateau;
 }
 
 function finish() {

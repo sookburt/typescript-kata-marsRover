@@ -1,4 +1,4 @@
-import { createPlateau } from '../command_centre';
+import { createPlateau } from '../src/plateau';
 import { createRover } from '../src/rover'
 import { createInstructionSet } from '../src/instructionSet'
 import { closeInputStream } from '../src/console';

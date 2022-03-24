@@ -52,3 +52,15 @@ export class Plateau {
       return `x:${this.x}, y:${this.y}`;
   }
 }
+
+/**
+ * Creates a plateau of the defined dimensions.
+ * @param xSize 
+ * @param ySize 
+ * @returns Plateau 
+ */
+ export function createPlateau(xSize: number, ySize: number) : Plateau {
+
+    const plateau = new Plateau(xSize, ySize);
+    return plateau;
+}
