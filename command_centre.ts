@@ -2,7 +2,7 @@ import { print, clear, closeInputStream, askQuestion } from './src/console';
 import { Plateau } from './src/plateau';
 import { Rover } from './src/rover';
 import { CompassDirection, isValidDirection } from './src/compassDirection';
-import { InstructionSet, Instruction } from './src/instructionSet';
+import { InstructionSet, Instruction, isInvalidMove } from './src/instructionSet';
 
 let plateau = undefined;
 
@@ -186,7 +186,7 @@ function validateInstructionMovementInput(input: string){
         print(`The instructions are required in the form of a combination of L, R or M 😱 Please start again!`);
         return false;
     }
-    if (/[^LRM*]/.test(input)) {
+    if (isInvalidMove(input)) {
         print(`The instructions can only contain a combination of L, R or M? 😱 Please start again!`);
         return false;
     }
@@ -253,7 +253,7 @@ export function createInstructionSet(startX: number, startY: number, startDirect
     if (startY === undefined) throw new Error("Invalid instruction error - startY is required - cannot create instruction set.");
     if (startDirection === undefined) throw new Error("Invalid instruction error - startDirection is required - cannot create instruction set.");
     if (instruction === undefined) throw new Error("Invalid instruction error - instruction is required - cannot create instruction set.");
-    if (/[^LRM*]/.test(instruction)) throw new Error("Invalid instruction error - invalid characters in instruction - cannot create instruction set.");
+    if (isInvalidMove(instruction)) throw new Error("Invalid instruction error - invalid characters in instruction - cannot create instruction set.");
 
     const instructionSet = new InstructionSet(startX, startY, startDirection, instruction, plateau);
     return instructionSet;

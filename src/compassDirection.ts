@@ -1,7 +1,4 @@
 
-const faces = [ "L", "R"] as const;
-export type TurnFace = typeof faces[number];
-
 const directions = ["N", "E", "S", "W"];
 export type CompassDirection = typeof directions[number]; 
 
@@ -32,6 +29,8 @@ export function isValidDirection(input: string) {
   const index = directions.indexOf(input);
   return index !== -1;
 }
+
+
 
 export function getInitialDirection() {
   

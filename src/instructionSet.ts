@@ -2,6 +2,14 @@ import { CompassDirection } from "./compassDirection";
 import { Plateau } from "./plateau";
 import { print } from "./console";
 
+const movements = [ "L", "R", "M"]
+export type Moves = typeof movements[number];
+
+export function isInvalidMove(input: string) {
+  const result = /[^LRM]/.test(input);
+  return result;
+}
+
 export interface Instruction {
 
   startX: number;
