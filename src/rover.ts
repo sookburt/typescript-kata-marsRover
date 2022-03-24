@@ -69,3 +69,14 @@ export class Rover {
       return `x: ${this.x}, y: ${this.y}, facing: ${this.direction}`;
   }
 }
+
+/**
+ * Creates a rover with a name.
+ * @param name 
+ * @returns Rover
+ */
+ export function createRover(name: string) {
+
+    const rover = new Rover(name);
+    return rover;
+}

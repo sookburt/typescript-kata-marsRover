@@ -1,6 +1,6 @@
 import { print, clear, closeInputStream, askQuestion } from './src/console';
 import { Plateau } from './src/plateau';
-import { Rover } from './src/rover';
+import { createRover } from './src/rover';
 import { CompassDirection, isValidDirection } from './src/compassDirection';
 import { createInstructionSet, Instruction, isInvalidMove } from './src/instructionSet';
 
@@ -224,17 +224,6 @@ export function createPlateau(xSize: number, ySize: number) : Plateau {
 
     const plateau = new Plateau(xSize, ySize);
     return plateau;
-}
-
-/**
- * Creates a rover with a name.
- * @param name 
- * @returns Rover
- */
-export function createRover(name: string) {
-
-    const rover = new Rover(name);
-    return rover;
 }
 
 function finish() {
