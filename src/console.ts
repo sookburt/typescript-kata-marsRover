@@ -16,9 +16,9 @@ export function clear(spacer: boolean): void {
 
 export function print(message: string): void {
 
-	console.log();
+	console.log("");
   console.log(message);
-  console.log();
+  console.log("");
 }
 
 export function askQuestion(question: string, callback: (arg: string) => void) {

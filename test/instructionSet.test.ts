@@ -1,4 +1,4 @@
-import { InstructionSet } from "../src/instructionSet";
+import { InstructionSet, isInvalidMove } from "../src/instructionSet";
 import { Plateau } from "../src/plateau";
 import { closeInputStream } from '../src/console';
 
@@ -14,6 +14,16 @@ describe("InstructionSet", () => {
     expect(instructionSet.getInstructions()).toBe("x:0, y:0, direction:N, instruction:LRM, plateau:x:5, y:5");
   });
 
-  
+  it.each([
+    ["LMR", false],
+    ["LMZ", true],
+    ["LMMRMMLLM", false],
+    ["097546LRM", true],
+    ["LRM*", true]
+  ])(`isInvalidMove(%i) returns %i`,
+
+    (x, y) => {
+      expect(isInvalidMove(x)).toBe(y);
+  })
 
 });
