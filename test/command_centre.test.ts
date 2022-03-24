@@ -1,4 +1,5 @@
-import { createPlateau, createRover, createInstructionSet } from '../command_centre';
+import { createPlateau, createRover } from '../command_centre';
+import { createInstructionSet } from '../src/instructionSet'
 import { closeInputStream } from '../src/console';
 
 afterEach(() => {
