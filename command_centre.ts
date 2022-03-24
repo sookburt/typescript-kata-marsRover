@@ -1,7 +1,7 @@
 import { print, clear, closeInputStream, askQuestion } from './src/console';
 import { createPlateau } from './src/plateau';
 import { createRover } from './src/rover';
-import { CompassDirection, isValidDirection } from './src/compassDirection';
+import { CompassDirection, isInvalidDirection } from './src/compassDirection';
 import { createInstructionSet, Instruction, isInvalidMove } from './src/instructionSet';
 
 let plateau = undefined;
@@ -146,7 +146,7 @@ function validateInstructionCoordinates(input: string) {
         print("The second character needs to be a number in the instruction coordinates, separated with a comma: start X position (number), start Y position (number) and direction to face N (North), E (East), S (South), W (West) - like: '1,2,N'. Please start again.");
         return false;       
     }
-    if (!isValidDirection(inputs[2])) {
+    if (isInvalidDirection(inputs[2])) {
         print(`The third character needs to be a compass direction in the instruction coordinates - either N (North), E (East), S (South), W (West) - like: '1,2,N'.  You typed in ${inputs[2]}. Please start again.`);
         return false;       
     }

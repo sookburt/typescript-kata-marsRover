@@ -24,13 +24,11 @@ export function getNextLeft(currentDirection: CompassDirection){
   return directions[next];
 }
 
-export function isValidDirection(input: string) {
+export function isInvalidDirection(input: string) {
 
   const index = directions.indexOf(input);
-  return index !== -1;
+  return index === -1;
 }
-
-
 
 export function getInitialDirection() {
   

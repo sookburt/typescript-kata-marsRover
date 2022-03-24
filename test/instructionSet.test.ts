@@ -24,6 +24,6 @@ describe("InstructionSet", () => {
 
     (x, y) => {
       expect(isInvalidMove(x)).toBe(y);
-  })
+  });
 
 });
